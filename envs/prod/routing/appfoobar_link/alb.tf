@@ -26,7 +26,7 @@ resource "aws_lb" "this" {
   }
 }
 
-resource "aws_alb_listener" "https" {
+resource "aws_lb_listener" "https" {
   count = var.enable_alb ? 1 : 0
 
   certificate_arn   = aws_acm_certificate.root.arn
@@ -46,7 +46,7 @@ resource "aws_alb_listener" "https" {
   }
 }
 
-resource "aws_alb_listener" "redirect_http_to_https" {
+resource "aws_lb_listener" "redirect_http_to_https" {
   count = var.enable_alb ? 1 : 0
 
   load_balancer_arn = aws_lb.this[0].arn
