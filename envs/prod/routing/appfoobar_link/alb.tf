@@ -36,13 +36,9 @@ resource "aws_lb_listener" "https" {
   ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {
-    type = "fixed-response"
+    type = "forward"
 
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Fixed response content"
-      status_code  = "200"
-    }
+    target_group_arn = aws_lb_target_group.foobar.arn
   }
 }
 
@@ -61,5 +57,30 @@ resource "aws_lb_listener" "redirect_http_to_https" {
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
+  }
+}
+
+resource "aws_lb_target_group" "foobar" {
+  name = "${local.name_prefix}-foobar"
+
+  deregistration_delay = 60
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = data.terraform_remote_state.network_main.outputs.vpc_this_id
+
+  health_check {
+    healthy_threshold   = 2
+    interval            = 30
+    matcher             = 200
+    path                = "/"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    unhealthy_threshold = 2
+  }
+
+  tags = {
+    Name = "${local.name_prefix}-foobar"
   }
 }
