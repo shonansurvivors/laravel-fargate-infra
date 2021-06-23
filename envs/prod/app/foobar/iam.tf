@@ -43,13 +43,6 @@ resource "aws_iam_policy" "ssm" {
             "ssm:GetParameter"
           ],
           "Resource" : "arn:aws:ssm:${data.aws_region.current.id}:${data.aws_caller_identity.self.account_id}:parameter/${local.system_name}/${local.env_name}/*"
-        },
-        {
-          "Effect" : "Allow",
-          "Action" : [
-            "kms:Decrypt"
-          ],
-          "Resource" : data.aws_kms_alias.ssm.target_key_arn
         }
       ]
     }
@@ -58,10 +51,6 @@ resource "aws_iam_policy" "ssm" {
   tags = {
     Name = "${local.name_prefix}-${local.service_name}-ssm"
   }
-}
-
-data "aws_kms_alias" "ssm" {
-  name = "alias/aws/ssm"
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_ssm" {
