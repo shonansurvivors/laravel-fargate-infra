@@ -56,6 +56,13 @@ resource "aws_iam_role_policy" "s3" {
           ],
           "Resource" : "arn:aws:s3:::shonansurvivors-tfstate/${local.system_name}/${local.env_name}/cicd/app_${local.service_name}_*.tfstate"
         },
+        {
+          "Effect" : "Allow",
+          "Action" : [
+            "s3:PutObject"
+          ],
+          "Resource" : "${data.aws_s3_bucket.env_file.arn}/*"
+        },
       ]
     }
   )
