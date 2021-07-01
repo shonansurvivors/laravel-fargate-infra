@@ -80,7 +80,9 @@ resource "aws_iam_role_policy" "ecs" {
           "Sid" : "RegisterTaskDefinition",
           "Effect" : "Allow",
           "Action" : [
-            "ecs:RegisterTaskDefinition"
+            "ecs:RegisterTaskDefinition",
+            "ecs:ListTaskDefinitions",
+            "ecs:DescribeTaskDefinition"
           ],
           "Resource" : "*"
         },
@@ -104,6 +106,34 @@ resource "aws_iam_role_policy" "ecs" {
           ],
           "Resource" : [
             data.aws_ecs_service.this.arn
+          ]
+        },
+        {
+          "Sid" : "RunAndWaitTask",
+          "Effect" : "Allow",
+          "Action" : [
+            "ecs:RunTask",
+            "ecs:DescribeTasks"
+          ],
+          "Condition": {
+            "ArnEquals": {
+              "ecs:cluster": data.aws_ecs_cluster.this.arn
+            }
+          },
+          "Resource" : [
+            "arn:aws:ecs:${data.aws_region.current.id}:${data.aws_caller_identity.self.id}:task-definition/${local.name_prefix}-${local.service_name}:*",
+            "arn:aws:ecs:${data.aws_region.current.id}:${data.aws_caller_identity.self.id}:task/*"
+          ]
+        },
+        {
+          "Sid" : "GetLogEvents",
+          "Effect" : "Allow",
+          "Action" : [
+            "logs:GetLogEvents"
+          ],
+          "Resource" : [
+            data.aws_cloudwatch_log_group.nginx.arn,
+            data.aws_cloudwatch_log_group.php.arn
           ]
         }
       ]
