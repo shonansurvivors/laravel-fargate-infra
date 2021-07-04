@@ -117,17 +117,17 @@ resource "aws_iam_role_policy" "ecs_task_ssm" {
 
   policy = jsonencode(
     {
-      "Version": "2012-10-17",
-      "Statement": [
+      "Version" : "2012-10-17",
+      "Statement" : [
         {
-          "Effect": "Allow",
-          "Action": [
+          "Effect" : "Allow",
+          "Action" : [
             "ssmmessages:CreateControlChannel",
             "ssmmessages:CreateDataChannel",
             "ssmmessages:OpenControlChannel",
             "ssmmessages:OpenDataChannel"
           ],
-          "Resource": "*"
+          "Resource" : "*"
         }
       ]
     }
