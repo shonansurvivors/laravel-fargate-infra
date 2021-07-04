@@ -115,9 +115,9 @@ resource "aws_iam_role_policy" "ecs" {
             "ecs:RunTask",
             "ecs:DescribeTasks"
           ],
-          "Condition": {
-            "ArnEquals": {
-              "ecs:cluster": data.aws_ecs_cluster.this.arn
+          "Condition" : {
+            "ArnEquals" : {
+              "ecs:cluster" : data.aws_ecs_cluster.this.arn
             }
           },
           "Resource" : [

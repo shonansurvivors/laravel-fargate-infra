@@ -3,7 +3,7 @@ data "aws_caller_identity" "self" {}
 data "aws_region" "current" {}
 
 data "aws_ecs_cluster" "this" {
-  cluster_name  = "${local.name_prefix}-${local.service_name}"
+  cluster_name = "${local.name_prefix}-${local.service_name}"
 }
 
 data "aws_ecs_service" "this" {
