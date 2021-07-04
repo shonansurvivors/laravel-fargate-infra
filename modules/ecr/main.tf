@@ -12,7 +12,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
       "rules" : [
         {
           "rulePriority" : 1,
-          "description" : "Keep only ${var.holding_count} images, expire all others",
+          "description" : "Hold only ${var.holding_count} images, expire all others",
           "selection" : {
             "tagStatus" : "any",
             "countType" : "imageCountMoreThan",
