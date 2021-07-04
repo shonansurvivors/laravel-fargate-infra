@@ -145,6 +145,8 @@ resource "aws_ecs_service" "this" {
     ]
   }
 
+  enable_execute_command = true
+
   tags = {
     Name = "${local.name_prefix}-${local.service_name}"
   }
