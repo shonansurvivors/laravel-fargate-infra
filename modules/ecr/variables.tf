@@ -3,6 +3,6 @@ variable "name" {
 }
 
 variable "holding_count" {
-  type = number
+  type    = number
   default = 10
 }
