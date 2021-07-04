@@ -9,17 +9,17 @@ resource "aws_ecr_repository" "this" {
 resource "aws_ecr_lifecycle_policy" "this" {
   policy = jsonencode(
     {
-      "rules": [
+      "rules" : [
         {
-          "rulePriority": 1,
-          "description": "Keep only ${var.holding_count} images, expire all others",
-          "selection": {
-            "tagStatus": "any",
-            "countType": "imageCountMoreThan",
-            "countNumber": var.holding_count
+          "rulePriority" : 1,
+          "description" : "Hold only ${var.holding_count} images, expire all others",
+          "selection" : {
+            "tagStatus" : "any",
+            "countType" : "imageCountMoreThan",
+            "countNumber" : var.holding_count
           },
-          "action": {
-            "type": "expire"
+          "action" : {
+            "type" : "expire"
           }
         }
       ]
