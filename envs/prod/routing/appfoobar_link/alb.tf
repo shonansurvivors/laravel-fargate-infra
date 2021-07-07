@@ -35,10 +35,20 @@ resource "aws_lb_listener" "https" {
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
 
-  default_action {
-    type = "forward"
+//  default_action {
+//    type = "forward"
+//
+//    target_group_arn = aws_lb_target_group.foobar.arn
+//  }
 
-    target_group_arn = aws_lb_target_group.foobar.arn
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Fixed response content"
+      status_code  = "200"
+    }
   }
 }
 
